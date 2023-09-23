@@ -218,11 +218,14 @@ exports.editUser = async (req, res) => {
 
 exports.payPicUpdate = async (req, res) => {
   const date = new Date();
-  const nowDate = `${date.getDay()}_${date.getMonth()}_${date.getFullYear()}`;
+
+  const nowDate = `${date.getMonth() + 1}_${date.getFullYear()}`;
   const updatedPayPic = await User.findOneAndUpdate(
     { _id: req.body._id },
     {
       $set: {
+        dateUpdatePic: nowDate,
+        payPeriode: req?.body?.payPeriode,
         payPicture: process.env.API + "/public/" + req.file.filename,
       },
     },
@@ -230,6 +233,7 @@ exports.payPicUpdate = async (req, res) => {
   );
   if (updatedPayPic) {
     res.status(201).json({ message: "User Updated", updatedPayPic });
+    console.log(nowDate);
   } else {
     res.status(400).json({ message: "Something went wrong" });
   }

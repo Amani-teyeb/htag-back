@@ -1,50 +1,28 @@
 const slugify = require("slugify");
 const Course = require("../models/course");
 const Theme = require("../models/theme");
-
-// exports.addCourse = (req, res) => {
-//   const { titre, level, theme, image, group, createdBy } = req.body;
-
-//   const course = new Course({
-//     titre,
-//     slug: slugify(titre),
-//     level,
-//     theme,
-//     image,
-//     group,
-//     createdBy: req.user._id,
-//   });
-
-//   if (req.file) {
-//     course.url = process.env.API + "/public/" + req.file.filename;
-//   }
-
-//   course.save((error, course) => {
-//     if (error) return res.status(400).json({ error });
-//     if (course) {
-//       res.status(201).json({ course });
-//     }
-//   });
-// };
+const VideoCourse = require("../models/videoCourse");
 
 exports.addCourse = (req, res) => {
-  const { titre, level, theme, image, group, url } = req.body;
-
-  const course = new Course({
-    url,
-    titre,
-    level,
-    theme,
-    image,
-    group,
-    createdBy: req.user._id,
-  });
-  course.save((error, course) => {
-    if (error) return res.status(400).json({ error });
-    if (course) {
-      res.status(201).json({ course });
+  const { titre, level, theme, image, group } = req.body;
+  try {
+    const course = new Course({
+      titre,
+      slug: slugify(titre),
+      level,
+      theme,
+      image,
+      group,
+      createdBy: req.user._id,
+    });
+    if (req.file) {
+      course.url = process.env.API + "/public/" + req.file.filename;
     }
-  });
+    course.save();
+    res.status(201).json({ course });
+  } catch (error) {
+    res.status(400).json(error);
+  }
 };
 
 exports.getCoursesBySlug = (req, res) => {
@@ -84,4 +62,32 @@ exports.deleteCourse = async (req, res) => {
   } catch (error) {
     return res.status(400).json({ error });
   }
+};
+
+exports.addvideoCourse = (req, res) => {
+  const { titre, theme, url, level, group, createdBy } = req.body;
+
+  try {
+    const videoCourse = new VideoCourse({
+      titre,
+      url,
+      level,
+      slug: slugify(titre),
+      theme,
+      group,
+      createdBy: req.user._id,
+    });
+
+    videoCourse.save();
+    res.status(201).json({ videoCourse });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+exports.getvideoCourse = (req, res) => {
+  VideoCourse.find({}).exec((error, courses) => {
+    if (error) return res.status(400).json({ error });
+    if (courses) return res.status(200).json({ courses });
+  });
 };

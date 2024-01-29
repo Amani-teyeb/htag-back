@@ -23,8 +23,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// router.post("/course/create", requireSignin, upload.single("url"), addCourse);
-router.post("/course/create", requireSignin, addCourse);
+router.post("/course/create", requireSignin, upload.single("url"), addCourse);
 router.get("/courses/:slug", getCoursesBySlug);
 router.get("/course/allcourses", getAllCourses);
 router.post("/course/deleteCourse", deleteCourse);

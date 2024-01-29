@@ -18,6 +18,8 @@ const courseRoutes = require("./routes/course");
 const chatRoutes = require("./routes/chat");
 const messageRoutes = require("./routes/message");
 const mycourses = require("./routes/mycourse");
+const homepicRoutes = require("./routes/homePic");
+const videoCourseRoute = require("./routes/courseVideo");
 
 mongoose.set("strictQuery", false);
 connectDB();
@@ -29,6 +31,8 @@ app.use("/api", themeRoutes);
 app.use("/api", chatRoutes);
 app.use("/api", messageRoutes);
 app.use("/api", mycourses);
+app.use("/api", homepicRoutes);
+app.use("/api", videoCourseRoute);
 
 const server = app.listen(process.env.PORT, () => {
   console.log(`Server is running on PORT ${process.env.PORT}`);

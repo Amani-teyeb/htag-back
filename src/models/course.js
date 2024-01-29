@@ -9,7 +9,6 @@ const courseSchema = new Schema(
     theme: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Theme",
-      required: true,
     },
     image: { type: String },
     group: { type: String },

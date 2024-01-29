@@ -47,6 +47,7 @@ exports.getCoursesBySlug = (req, res) => {
       }
     });
 };
+
 exports.getAllCourses = (req, res) => {
   Course.find({}).exec((error, courses) => {
     if (error) return res.status(400).json({ error });

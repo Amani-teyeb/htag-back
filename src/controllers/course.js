@@ -87,8 +87,8 @@ exports.addvideoCourse = (req, res) => {
 };
 
 exports.getvideoCourse = (req, res) => {
-  VideoCourse.find({}).exec((error, courses) => {
+  VideoCourse.find({}).exec((error, vcourses) => {
     if (error) return res.status(400).json({ error });
-    if (courses) return res.status(200).json({ courses });
+    if (vcourses) return res.status(200).json({ vcourses });
   });
 };
